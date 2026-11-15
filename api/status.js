@@ -9,7 +9,7 @@ export default function handler(request, response) {
   response.status(200).json({
     ready,
     message: ready
-      ? `Ready · ${process.env.GEMINI_MODEL || "gemini-2.5-flash"}`
+      ? `Ready · ${process.env.GEMINI_MODEL || "gemini-3.5-flash-lite"}`
       : "Set GEMINI_API_KEY in Vercel project settings to enable chat.",
   });
 }

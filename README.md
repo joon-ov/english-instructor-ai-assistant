@@ -35,7 +35,7 @@ the Gemini API instead; the local app continues to use Ollama.
 2. Import this GitHub repository into Vercel.
 3. Add `GEMINI_API_KEY` as an environment variable in the Vercel project settings.
    Never commit the key or put it in a `NEXT_PUBLIC_` variable.
-4. Optionally set `GEMINI_MODEL` (default: `gemini-2.5-flash`), then deploy.
+4. Optionally set `GEMINI_MODEL` (default: `gemini-3.5-flash-lite`), then deploy.
 
 The Vercel integration is in `api/`. Check `/api/status` on the deployed site to
 confirm configuration before chatting. If chat fails, the error message
