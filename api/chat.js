@@ -23,6 +23,27 @@ function validateMessages(messages) {
   return null;
 }
 
+function getUpstreamErrorMessage(status, upstreamStatus, upstreamMessage) {
+  const message = typeof upstreamMessage === "string" ? upstreamMessage.toLowerCase() : "";
+
+  if (status === 400 && /api.?key/.test(message)) {
+    return "Google rejected GEMINI_API_KEY. Check that you copied the active key correctly, then redeploy.";
+  }
+  if (status === 400) {
+    return "Google rejected the request. Check the GEMINI_MODEL setting and try again.";
+  }
+  if (status === 403 || upstreamStatus === "PERMISSION_DENIED") {
+    return "Google denied API access. Check the key's API restrictions and make sure the Gemini API is enabled for its Google Cloud project.";
+  }
+  if (status === 404 || upstreamStatus === "NOT_FOUND") {
+    return "Google could not find the configured Gemini model. Check GEMINI_MODEL in Vercel.";
+  }
+  if (status === 429 || upstreamStatus === "RESOURCE_EXHAUSTED") {
+    return "The Gemini API quota or rate limit has been reached. Check the project's AI Studio usage and quota.";
+  }
+  return "Google's AI service returned an error. Check the Vercel function logs for the Google status code.";
+}
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -85,12 +106,17 @@ export default async function handler(request, response) {
   }
 
   if (!upstream.ok) {
-    console.error("Gemini API returned HTTP", upstream.status);
+    let upstreamError;
+    try {
+      upstreamError = (await upstream.json()).error;
+    } catch {
+      upstreamError = null;
+    }
+
+    console.error("Gemini API returned HTTP", upstream.status, upstreamError?.status ?? "unknown error type");
     const status = upstream.status === 429 ? 429 : 502;
     response.status(status).json({
-      error: status === 429
-        ? "The AI service is busy right now. Please wait a moment and try again."
-        : "The AI service could not complete your request. Check the Gemini API key and model settings.",
+      error: getUpstreamErrorMessage(upstream.status, upstreamError?.status, upstreamError?.message),
     });
     return;
   }

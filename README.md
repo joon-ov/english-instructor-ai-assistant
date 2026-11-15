@@ -38,7 +38,8 @@ the Gemini API instead; the local app continues to use Ollama.
 4. Optionally set `GEMINI_MODEL` (default: `gemini-2.5-flash`), then deploy.
 
 The Vercel integration is in `api/`. Check `/api/status` on the deployed site to
-confirm configuration before chatting.
+confirm configuration before chatting. If chat fails, the error message
+distinguishes common invalid-key, API-access, model-name, and quota issues.
 
 ## Install on your phone
 
