@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f5">
+    <meta name="description" content="Practice English in a friendly, conversational chat.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="English Instructor">
+    <title>English Instructor</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/icons/app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icons/app-icon-192.png">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="English Instructor home">
+          <span class="brand-mark" aria-hidden="true">e</span>
+          <span>English <strong>Instructor</strong></span>
+        </a>
+        <div class="connection" id="connection" role="status" aria-live="polite">
+          <span class="connection-dot" aria-hidden="true"></span>
+          <span id="connection-text">Checking local model…</span>
+        </div>
+      </header>
+
+      <section class="chat" aria-label="Conversation">
+        <div class="conversation" id="conversation" aria-live="polite">
+          <div class="welcome" id="welcome">
+            <div class="welcome-icon" aria-hidden="true">✳</div>
+            <p class="eyebrow">YOUR ENGLISH PRACTICE</p>
+            <h1>Let's have a conversation.</h1>
+            <p class="welcome-copy">Write anything in English. I'll check and correct it first, explain any changes simply, and then answer your message.</p>
+          </div>
+          <div class="messages" id="messages"></div>
+        </div>
+
+        <form class="composer" id="chat-form">
+          <label class="sr-only" for="message-input">Write your message in English</label>
+          <textarea
+            id="message-input"
+            name="message"
+            rows="1"
+            maxlength="4000"
+            placeholder="Write your message…"
+            autocomplete="off"
+            required
+          ></textarea>
+          <div class="composer-footer">
+            <span class="hint">English only · Enter to send · Shift + Enter for a new line</span>
+            <button class="send-button" id="send-button" type="submit" aria-label="Send message">
+              <span>Send</span>
+              <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                <path d="M3.5 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+        <p class="privacy-note">Your conversation stays on this device and is cleared when you reload.</p>
+      </section>
+    </main>
+  </body>
+</html>
